@@ -61,54 +61,51 @@ setInterval(function(){
   
   // New map
   n=[];
-  
-  // for each line
-  for(j=350;j--;)
     
-    // For each cell
-    for(n[j]=[],i=350;i--;){
-      
-      // 1st generation: draw initial state
-      // Next generations: reuse previous color (this saves 93 rules)
-      n[j][i]=
-      z
-      ?
-        s[j-z]&&s[j-z][i-z]?s[j-z][i-z]:0
-      :
-      m[j][i];
+  // For each cell
+  for(i=2e5;i--;){
+    
+    x=i%350;
+    y=i/350|0;
+    
+    // 1st generation: draw initial state
+    // Next generations: reuse previous color (this saves 93 rules)
+    n[i]=m[i]||(s[y-z]?~~s[y-z][x-z]:0)
 
-      // Next generations:
-      // For better perfs, ignore cells with black neighbours (y = parseInt("" + N + E + S + W) > 0)
-      if(
-        !z
-        &&
-        (
-          y=+(
-            p=""+
-            (m[j-1]?m[j-1][i]:0)
-            +~~m[j][i+1]
-            +(m[j+1]?m[j+1][i]:0)
-            +~~m[j][i-1]
-          )
+    // Next generations:
+    // For better perfs, ignore cells with black neighbours (w = parseInt("" + N + E + S + W) > 0)
+    if(
+      !z
+      &&
+      (
+        w=+(
+          p=""
+          +~~m[i-350]
+          +~~m[i+1]
+          +~~m[i+350]
+          +~~m[i-1]
         )
-      ){
-      
-        // for each rule, test if the current cell is equal to the first char of the rule, and if the 4 neighbour cells are present in any rotation of the chars 2 to 5 of the rule, and if all of this is true, set the last char of the rule as the current cell's color
-        for(k of r)
-          if(k[0]==m[j][i]&&(k.substr(1,4)+k.substr(1,4)).includes(p))
-            n[j][i]=k[5];
-      }
-      
-      // 1st generation: draw all the cells
-      // Next generations: draw only the cells that have colored neighbours
-      if(z||y)
-        c.fillStyle="#"+"000FFF0F00".substr("01764532"[n[j][i]],3),
-        c.fillRect(2*i-50,2*j-50,2,2);
+      )
+    ){
+    
+      // for each rule, test if the current cell is equal to the first char of the rule,
+      // and if the 4 neighbour cells are present in any rotation of the chars 2 to 5 of the rule,
+      // then set the last char of the rule as the current cell's color
+      for(k of r)
+        if(k[0]==m[i]&&k.substr(1,4).repeat(2).includes(p))
+          n[i]=k[5];
     }
+    
+    // 1st generation: draw all the cells
+    // Next generations: draw only the cells that have colored neighbours
+    if(z||w)
+      c.fillStyle="#"+"000FFF0F00".substr("01764532"[n[i]],3),
+      c.fillRect(2*x-50,2*y-50,2,2);
+  }
     
   m=n;
   z=0;
   
-},33);
+},9);
 
 </script>
