@@ -1,4 +1,4 @@
-<canvas id=a width=600 height=600>
+<canvas id=a width=500 height=500>
 <script>
 
 // map, canvas context
@@ -63,24 +63,44 @@ setInterval(function(){
   n=[];
   
   // for each line
-  for(j=300;j--;)
+  for(j=350;j--;)
     
     // For each cell
-    for(n[j]=[],i=300;i--;){
+    for(n[j]=[],i=350;i--;){
       
       // 1st generation: draw initial state
-      // Next generations: reuse previous color by default, then apply the remaining rules
-      n[j][i]=z?(s[j-z]&&s[j-z][i-z]?+s[j-z][i-z]:0):m[j][i];
+      // Next generations: reuse previous color (this saves 93 rules)
+      n[j][i]=
+      z
+      ?
+        s[j-z]&&s[j-z][i-z]?s[j-z][i-z]:0
+      :
+      m[j][i];
 
-      // For better perfs, ignore cells with black neighbours
-      if(!z&&(y=+(p=""+(m[j-1]?m[j-1][i]:0)+(m[j][i+1]||0)+(m[j+1]?m[j+1][i]:0)+(m[j][i-1]||0)))){
+      // Next generations:
+      // For better perfs, ignore cells with black neighbours (y = parseInt("" + N + E + S + W) > 0)
+      if(
+        !z
+        &&
+        (
+          y=+(
+            p=""+
+            (m[j-1]?m[j-1][i]:0)
+            +~~m[j][i+1]
+            +(m[j+1]?m[j+1][i]:0)
+            +~~m[j][i-1]
+          )
+        )
+      ){
       
         // for each rule, test if the current cell is equal to the first char of the rule, and if the 4 neighbour cells are present in any rotation of the chars 2 to 5 of the rule, and if all of this is true, set the last char of the rule as the current cell's color
         for(k of r)
-          k[0]==m[j][i]&&~(k.substr(1,4)+k.substr(1,4)).indexOf(p)&&(n[j][i]=k[5])
+          if(k[0]==m[j][i]&&(k.substr(1,4)+k.substr(1,4)).includes(p))
+            n[j][i]=k[5];
       }
       
-      // Draw the cells that have changed colors (for better perf)
+      // 1st generation: draw all the cells
+      // Next generations: draw only the cells that have colored neighbours
       if(z||y)
         c.fillStyle="#"+"000FFF0F00".substr("01764532"[n[j][i]],3),
         c.fillRect(2*i-50,2*j-50,2,2);
