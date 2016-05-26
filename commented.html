@@ -63,7 +63,7 @@ setInterval(function(){
   n=[];
     
   // For each cell
-  for(i=2e5;i--;){
+  for(i=1e5;i--;){
     
     x=i%350;
     y=i/350|0;
@@ -92,8 +92,11 @@ setInterval(function(){
       // and if the 4 neighbour cells are present in any rotation of the chars 2 to 5 of the rule,
       // then set the last char of the rule as the current cell's color
       for(k of r)
-        if(k[0]==m[i]&&k.substr(1,4).repeat(2).includes(p))
-          n[i]=k[5];
+        k[0]==m[i]
+        &&
+        (p+p).includes(k.slice(1,5))
+        &&
+        (n[i]=k[5]);
     }
     
     // 1st generation: draw all the cells
