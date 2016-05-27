@@ -1,3 +1,4 @@
+<meta charset=utf-8>
 <canvas id=a width=500 height=500>
 <script>
 
@@ -50,11 +51,8 @@ r = [
 
 r=[z=145];
 
-q="c,1r,1z,34,3e,3o,5w,7a,7k,el,ha,k2,se,1n1,1si,412,9i9,9l1,9nx,9ql,9td,9u7,az1,b1t,b4l,bcx,cjf,dad,dbb,dip,dlh,do9,jhz 25,6s,7p,yk,zh,1ka,1qc,1qv,1r9,1sn,1vc,20y,21g,22d,23a,23r,46r,8oc,8p9,8w2,9g4,9h1,9l4,9tj,h5w,h6t,hb6,heb,hxo,hyl,ipr,iq3,ji3 1z,6y,92,br,ed,fz,1ll,1sh,1y0,2hc,2hm,49d,4f1,8ot m,15,24,bp,ha,sd,xw,1xr v4,xw,yq,1mw,1pp,1sm,1y0,2hh m,6g,7k,eg,1k6,1my,1ns,1po,1qc,23m,9cq,9fg,9l2,9te b,l,1mw,9ct,9cz,9fl v4,xw,yq,1mw,1pp,1qj,1sh,1y5,23k".split` `;
-for(i in q)
-  for(j of q[i].split`,`)
-    r.push(i+("0000"+parseInt(j,36)).slice(-5));
-
+q="?GpzÔĆĐȍɮ˒Ͼࡍऒᑦ〡ゅロㅍㆱ㇏㞍㟱㡕㦁㽻䍅䍧䑱䓕䔹抷 MôĕӜӽߪࣄࣗࣥगॸੂ੔ੵખધᔳ⯬Ⰽⴂ⿔⿵よㆷ囤圅垢堓嫌嫭庿廋抻 GúņƧȅȿ࠙ऑ৘ಐಚᖑᙝ⯽ )LƥɮϽӄ৏ ѠӄӢࡈࢭख৘ಕ èĐȈߦࡊࡨࢬࣄઢ⽚⾼ゆㆲ ࡈ⽝⽣⿁ ѠӄӢࡈࢭ࣋ऑঢ়ઠ".split` `;
+for(i in q)for(j in q[i])r.push(i+("000"+q[i].codePointAt(j)).slice(-5));
 
 // Loop
 setInterval(function(){
